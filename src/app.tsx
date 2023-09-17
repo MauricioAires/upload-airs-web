@@ -15,6 +15,7 @@ import { Slider } from "@/components/ui/slider";
 import { VideoInputForm } from "./components/video-input-form";
 import { PromptSelect } from "./components/prompt-select";
 import { useState } from "react";
+import { useCompletion } from "ai/react";
 
 export function App() {
   const [temperature, setTemperature] = useState(0.5);
@@ -24,13 +25,13 @@ export function App() {
     console.log(template);
   }
 
-  function handleSubmit(e: HTMLFormElement) {
-    e.preventDefault();
-
-    console.log(videoId);
-
-    console.log(temperature);
-  }
+  const { input, setInput, handleInputChange } = useCompletion({
+    api: `${import.meta.env.VITE_BASE_URL}/ai/complete`,
+    body: {
+      videoId,
+      temperature,
+    },
+  });
   return (
     <div className="min-h-screen flex flex-col">
       <div className="px-6 py-3 flex items-center justify-between border-b">
@@ -53,6 +54,8 @@ export function App() {
             <Textarea
               placeholder="Inclua o prompt para a IA..."
               className="resize-none p-4 leading-relaxed"
+              value={input}
+              onChange={handleInputChange}
             ></Textarea>
             <Textarea
               placeholder="Resultado gerado pela IA..."
@@ -74,7 +77,7 @@ export function App() {
           <form className="space-y-6">
             <div className="space-y-2">
               <Label>Prompt</Label>
-              <PromptSelect onPromptSelected={handlePromptSelected} />
+              <PromptSelect onPromptSelected={setInput} />
             </div>
             <div className="space-y-2">
               <Label>Modelo</Label>
