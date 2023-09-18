@@ -21,15 +21,21 @@ export function App() {
   const [temperature, setTemperature] = useState(0.5);
   const [videoId, setVideoId] = useState<string | null>(null);
 
-  function handlePromptSelected(template: string) {
-    console.log(template);
-  }
-
-  const { input, setInput, handleInputChange } = useCompletion({
+  const {
+    input,
+    setInput,
+    handleInputChange,
+    handleSubmit,
+    completion,
+    isLoading,
+  } = useCompletion({
     api: `${import.meta.env.VITE_BASE_URL}/ai/complete`,
     body: {
       videoId,
       temperature,
+    },
+    headers: {
+      "Content-type": "application/json",
     },
   });
   return (
@@ -61,6 +67,7 @@ export function App() {
               placeholder="Resultado gerado pela IA..."
               readOnly
               className="resize-none p-4 leading-relaxed"
+              value={completion}
             ></Textarea>
           </div>
           <p className="text-sm px-2 text-center text-muted-foreground">
@@ -74,7 +81,7 @@ export function App() {
           <VideoInputForm onVideoUploaded={setVideoId} />
           <Separator />
 
-          <form className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
               <Label>Prompt</Label>
               <PromptSelect onPromptSelected={setInput} />
@@ -114,7 +121,7 @@ export function App() {
 
             <Separator />
 
-            <Button type="submit" className="w-full">
+            <Button disabled={isLoading} type="submit" className="w-full">
               Executar <Wand2 className="w-4 h-4 ml-2" />
             </Button>
           </form>
