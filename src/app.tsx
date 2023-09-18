@@ -18,17 +18,11 @@ import { PromptSelect } from "./components/prompt-select";
 import { SelectLanguage } from "./components/select-language";
 import { SwitchTheme } from "./components/switch-theme";
 import { useGenerateCompletion } from "./context/generate-completion";
+import { ResultGenerated } from "./components/result-generated";
 
 export function App() {
-  const {
-    temperature,
-    setTemperature,
-    input,
-    handleInputChange,
-    handleSubmit,
-    completion,
-    isLoading,
-  } = useGenerateCompletion();
+  const { temperature, setTemperature, handleSubmit, isLoading } =
+    useGenerateCompletion();
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -48,28 +42,7 @@ export function App() {
         </div>
       </div>
       <main className="flex-1 p-6 flex gap-6 flex-col-reverse md:flex-row">
-        <div className="flex flex-col flex-1 gap-4">
-          <div className="grid grid-rows-2 gap-4 flex-1">
-            <Textarea
-              placeholder="Inclua o prompt para a IA..."
-              className="resize-none p-4 leading-relaxed"
-              value={input}
-              onChange={handleInputChange}
-            ></Textarea>
-            <Textarea
-              placeholder="Resultado gerado pela IA..."
-              readOnly
-              className="resize-none p-4 leading-relaxed"
-              value={completion}
-            ></Textarea>
-          </div>
-          <p className="text-sm px-2 text-center text-muted-foreground">
-            Lembre-se: você pode utilizar a variável
-            <code className="text-primary">{" {transcription} "}</code>
-            no seu prompt para adicionar o conteúdo da transcrição do vídeo
-            selecionado
-          </p>
-        </div>
+        <ResultGenerated />
         <aside className="md:w-80 w-full space-y-6">
           <VideoInputForm />
           <Separator />
