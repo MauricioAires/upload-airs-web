@@ -8,6 +8,7 @@ import { Button } from "./ui/button";
 import { getFFmpeg } from "@/lib/ffmpeg";
 import { fetchFile } from "@ffmpeg/util";
 import { api } from "@/lib/axios";
+import { useGenerateCompletion } from "@/context/generate-completion";
 
 type Status = "waiting" | "converting" | "uploading" | "generating" | "success";
 
@@ -18,11 +19,9 @@ const statusMessages = {
   success: "Sucesso",
 };
 
-interface VideoInputFormProps {
-  onVideoUploaded: (videoId: string) => void;
-}
+export function VideoInputForm() {
+  const { setVideoId } = useGenerateCompletion();
 
-export function VideoInputForm({ onVideoUploaded }: VideoInputFormProps) {
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const promptElementRef = useRef<HTMLTextAreaElement | null>(null);
   const [status, setStatus] = useState<Status>("waiting");
@@ -109,7 +108,7 @@ export function VideoInputForm({ onVideoUploaded }: VideoInputFormProps) {
 
     setStatus("success");
 
-    onVideoUploaded(videoId);
+    setVideoId(videoId);
   }
 
   const previewURL = useMemo(() => {

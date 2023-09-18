@@ -7,6 +7,7 @@ import {
   SelectValue,
 } from "./ui/select";
 import { api } from "@/lib/axios";
+import { useGenerateCompletion } from "@/context/generate-completion";
 
 interface Prompt {
   id: string;
@@ -14,11 +15,8 @@ interface Prompt {
   template: string;
 }
 
-interface PromptSelectProps {
-  onPromptSelected: (template: string) => void;
-}
-
-export function PromptSelect({ onPromptSelected }: PromptSelectProps) {
+export function PromptSelect() {
+  const { setInput } = useGenerateCompletion();
   const [prompts, setPrompts] = useState<Prompt[] | null>(null);
 
   useEffect(() => {
@@ -34,7 +32,7 @@ export function PromptSelect({ onPromptSelected }: PromptSelectProps) {
       return;
     }
 
-    onPromptSelected(selectedPrompt.template);
+    setInput(selectedPrompt.template);
   }
 
   return (

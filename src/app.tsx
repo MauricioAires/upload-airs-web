@@ -14,32 +14,22 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { VideoInputForm } from "./components/video-input-form";
 import { PromptSelect } from "./components/prompt-select";
-import { useState } from "react";
-import { useCompletion } from "ai/react";
+
 import { SelectLanguage } from "./components/select-language";
 import { SwitchTheme } from "./components/switch-theme";
+import { useGenerateCompletion } from "./context/generate-completion";
 
 export function App() {
-  const [temperature, setTemperature] = useState(0.5);
-  const [videoId, setVideoId] = useState<string | null>(null);
-
   const {
+    temperature,
+    setTemperature,
     input,
-    setInput,
     handleInputChange,
     handleSubmit,
     completion,
     isLoading,
-  } = useCompletion({
-    api: `${import.meta.env.VITE_BASE_URL}/ai/complete`,
-    body: {
-      videoId,
-      temperature,
-    },
-    headers: {
-      "Content-type": "application/json",
-    },
-  });
+  } = useGenerateCompletion();
+
   return (
     <div className="min-h-screen flex flex-col">
       <div className="px-6 py-3 flex items-center justify-between border-b">
@@ -81,13 +71,13 @@ export function App() {
           </p>
         </div>
         <aside className="md:w-80 w-full space-y-6">
-          <VideoInputForm onVideoUploaded={setVideoId} />
+          <VideoInputForm />
           <Separator />
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
               <Label>Prompt</Label>
-              <PromptSelect onPromptSelected={setInput} />
+              <PromptSelect />
             </div>
             <div className="space-y-2">
               <Label>Modelo</Label>
