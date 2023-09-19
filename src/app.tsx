@@ -1,4 +1,11 @@
-import { Github } from "lucide-react";
+import { Github, Terminal, Wand2 } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { SelectLanguage } from "./components/select-language";
@@ -24,7 +31,34 @@ export function App() {
           <SelectLanguage />
         </div>
       </div>
-      <main className="flex-1 p-6 flex gap-6 flex-col-reverse md:flex-row">
+
+      {/* Mobile */}
+      <main className="flex-1 p-6 flex  gap-6  md:flex-row md:hidden">
+        <Accordion type="single" collapsible className="w-full md:hidden">
+          <AccordionItem value="item-1">
+            <AccordionTrigger>
+              <span className="flex  gap-2">
+                <Wand2 className="w-4 h-4 ml-2" /> Parametrização
+              </span>
+            </AccordionTrigger>
+            <AccordionContent>
+              <Parameters />
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-2">
+            <AccordionTrigger>
+              <span className="flex  gap-2">
+                <Terminal className="w-4 h-4 ml-2" /> Resultado gerado
+              </span>
+            </AccordionTrigger>
+            <AccordionContent>
+              <ResultGenerated />
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </main>
+      {/* Desktop */}
+      <main className="flex-1 p-6  gap-6  hidden md:flex">
         <ResultGenerated />
         <Parameters />
       </main>
