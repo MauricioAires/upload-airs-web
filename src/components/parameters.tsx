@@ -80,7 +80,7 @@ export function Parameters() {
           type="submit"
           className="w-full"
         >
-          {completion ? "Regenerar" : "Executar"}
+          {completion ? "Regenerar resposta" : "Executar"}
           <Wand2 className="w-4 h-4 ml-2" />
         </Button>
       </form>
