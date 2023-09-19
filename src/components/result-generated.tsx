@@ -5,7 +5,7 @@ export function ResultGenerated() {
   const { input, handleInputChange, completion } = useGenerateCompletion();
 
   return (
-    <div className="flex flex-col flex-1 gap-4">
+    <div className="flex md:mt-0 mt-4 flex-col md:h-auto h-[70dvh] flex-1  gap-4">
       <div className="grid grid-rows-2 gap-4 flex-1">
         <Textarea
           placeholder="Inclua o prompt para a IA..."
