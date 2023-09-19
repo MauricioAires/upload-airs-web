@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useMemo, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, useMemo, useState } from "react";
 import { FileVideo, Upload } from "lucide-react";
 
 import { Separator } from "./ui/separator";
@@ -20,10 +20,14 @@ const statusMessages = {
 };
 
 export function VideoInputForm() {
-  const { setVideoId } = useGenerateCompletion();
+  const {
+    setVideoId,
+    setVideoFile,
+    videoFile,
+    promptTranscription,
+    setPromptTranscription,
+  } = useGenerateCompletion();
 
-  const [videoFile, setVideoFile] = useState<File | null>(null);
-  const promptElementRef = useRef<HTMLTextAreaElement | null>(null);
   const [status, setStatus] = useState<Status>("waiting");
 
   function handleFileSelected(e: ChangeEvent<HTMLInputElement>) {
@@ -80,8 +84,6 @@ export function VideoInputForm() {
   async function handleUploadVideo(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    const prompt = promptElementRef.current?.value;
-
     if (!videoFile) {
       return;
     }
@@ -103,7 +105,7 @@ export function VideoInputForm() {
     setStatus("generating");
 
     await api.post(`/videos/${videoId}/transcription`, {
-      prompt,
+      prompt: promptTranscription,
     });
 
     setStatus("success");
@@ -151,22 +153,23 @@ export function VideoInputForm() {
         <Label htmlFor="transcription_prompt">Prompt de transcrição</Label>
         <Textarea
           disabled={status != "waiting"}
-          ref={promptElementRef}
           id="transcription_prompt"
           className="h-20 leading-relaxed resize-none"
           placeholder="Inclua palavras-chave mencionadas no vídeo separadas por virgula ( , ) "
+          value={promptTranscription}
+          onChange={(e) => setPromptTranscription(e.target.value)}
         ></Textarea>
       </div>
 
       <Button
-        disabled={status != "waiting"}
+        disabled={status !== "waiting"}
         type="submit"
-        className="w-full data-[success]:bg-emerald-400"
-        data-success={status === "success"}
+        className="w-full data-[status=success]:bg-emerald-400"
+        data-status={status}
       >
         {status == "waiting" ? (
           <>
-            Carregar vídeo
+            Transcrever vídeo
             <Upload className="w-4 h-4 ml-2" />
           </>
         ) : (
