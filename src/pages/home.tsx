@@ -23,10 +23,17 @@ export function Home() {
             Desenvolvido com 💙 no NLW da Rocketseat
           </span>
           <Separator orientation="vertical" className="h-6" />
-          <Button variant="outline">
-            <Github className="w-4 h-4 lg:mr-2" />
-            <span className="hidden lg:block">Github</span>
-          </Button>
+          <a
+            className="appearance-none"
+            href="https://github.com/MauricioAires"
+            target="_blank"
+            referrerPolicy="no-referrer"
+          >
+            <Button variant="outline">
+              <Github className="w-4 h-4 lg:mr-2" />
+              <span className="hidden lg:block">Github</span>
+            </Button>
+          </a>
           <ModeToggle />
           <SelectLanguage />
         </div>
