@@ -13,6 +13,7 @@ import { useGenerateCompletion } from "@/context/generate-completion";
 type Status = "waiting" | "converting" | "uploading" | "generating" | "success";
 
 const statusMessages = {
+  waiting: "Transcrição gerada",
   converting: "Convertendo",
   generating: "Transcrevendo",
   uploading: "Carregando",
@@ -25,6 +26,7 @@ export function VideoInputForm() {
     setVideoFile,
     videoFile,
     promptTranscription,
+    videoId,
     setPromptTranscription,
   } = useGenerateCompletion();
 
@@ -37,9 +39,17 @@ export function VideoInputForm() {
       return;
     }
 
+    handleResetVideoInput();
+
     const selectedFile = files[0];
 
     setVideoFile(selectedFile);
+  }
+
+  function handleResetVideoInput() {
+    setVideoFile(null);
+    setVideoId(null);
+    setPromptTranscription("");
   }
 
   async function convertVideoToAudio(video: File) {
@@ -130,8 +140,11 @@ export function VideoInputForm() {
           <>
             <video
               src={previewURL}
-              className="absolute aspect-video object-cover inset-0 pointer-events-none"
+              className="video-preview absolute z-20 hover:z-10 aspect-video object-cover inset-0"
             />
+            <div className="absolute  bg-gray-700/30 flex z-10  hover:z-20 justify-center items-center  text-white   inset-0  ">
+              <span className="font-semibold">Transcrever outro video</span>
+            </div>
           </>
         ) : (
           <>
@@ -152,7 +165,7 @@ export function VideoInputForm() {
       <div className="space-y-2">
         <Label htmlFor="transcription_prompt">Prompt de transcrição</Label>
         <Textarea
-          disabled={status != "waiting"}
+          disabled={status !== "waiting" || !!videoId}
           id="transcription_prompt"
           className="h-20 leading-relaxed resize-none"
           placeholder="Inclua palavras-chave mencionadas no vídeo separadas por virgula ( , ) "
@@ -162,12 +175,12 @@ export function VideoInputForm() {
       </div>
 
       <Button
-        disabled={status !== "waiting"}
+        disabled={status !== "waiting" || !!videoId || !videoFile}
         type="submit"
         className="w-full data-[status=success]:bg-emerald-400"
-        data-status={status}
+        data-status={!!videoId ? "success" : status}
       >
-        {status == "waiting" ? (
+        {status === "waiting" && !videoId ? (
           <>
             Transcrever vídeo
             <Upload className="w-4 h-4 ml-2" />

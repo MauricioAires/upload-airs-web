@@ -15,11 +15,21 @@ import { PromptSelect } from "./prompt-select";
 import { useGenerateCompletion } from "@/context/generate-completion";
 
 export function Parameters() {
-  const { temperature, setTemperature, handleSubmit, isLoading } =
-    useGenerateCompletion();
+  const {
+    temperature,
+    setTemperature,
+    handleSubmit,
+    isLoading,
+    videoId,
+    input,
+    completion,
+  } = useGenerateCompletion();
+
+  const videoNotYetTranscription = !videoId;
+  const promptNotYetSelected = !input;
 
   return (
-    <aside className="md:w-80 w-full md:mb-0  mb-4 md:mt-0 mt-4  space-y-6">
+    <aside className="md:w-80 px-1 md:px-0 w-full md:mb-0  mb-4 md:mt-0 mt-4  space-y-6">
       <VideoInputForm />
       <Separator />
 
@@ -63,8 +73,15 @@ export function Parameters() {
 
         <Separator />
 
-        <Button disabled={isLoading} type="submit" className="w-full">
-          Executar <Wand2 className="w-4 h-4 ml-2" />
+        <Button
+          disabled={
+            isLoading || videoNotYetTranscription || promptNotYetSelected
+          }
+          type="submit"
+          className="w-full"
+        >
+          {completion ? "Regenerar" : "Executar"}
+          <Wand2 className="w-4 h-4 ml-2" />
         </Button>
       </form>
     </aside>
