@@ -9,6 +9,7 @@ import { api } from "@/lib/axios";
  */
 type VideoId = string | null;
 
+type Session = "parameterization" | "generated-response" | string;
 interface Prompt {
   id: string;
   title: string;
@@ -36,6 +37,8 @@ interface GenerateCompletionContextDefaultValue {
   setVideoFile: (file: File | null) => void;
   promptTranscription: string | undefined;
   setPromptTranscription: (promptTranscription: string | undefined) => void;
+  selectedSession: Session;
+  setSelectedSession: (selectedSession: Session) => void;
 }
 
 const GenerateCompletionContext = createContext(
@@ -60,6 +63,8 @@ export function GenerateCompletionProvider({
   >("");
 
   const [videoFile, setVideoFile] = useState<File | null>(null);
+  const [selectedSession, setSelectedSession] =
+    useState<Session>("parameterization");
 
   useEffect(() => {
     api.get("/prompts").then((response) => {
@@ -105,6 +110,8 @@ export function GenerateCompletionProvider({
         setVideoFile,
         promptTranscription,
         setPromptTranscription,
+        selectedSession,
+        setSelectedSession,
       }}
     >
       {children}
