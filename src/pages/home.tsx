@@ -9,9 +9,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { SelectLanguage } from "@/components/select-language";
-import { SwitchTheme } from "@/components/switch-theme";
 import { ResultGenerated } from "@/components/result-generated";
 import { Parameters } from "@/components/parameters";
+import { ModeToggle } from "@/components/mode-toggle";
 
 export function Home() {
   return (
@@ -27,7 +27,7 @@ export function Home() {
             <Github className="w-4 h-4 lg:mr-2" />
             <span className="hidden lg:block">Github</span>
           </Button>
-          <SwitchTheme />
+          <ModeToggle />
           <SelectLanguage />
         </div>
       </div>
