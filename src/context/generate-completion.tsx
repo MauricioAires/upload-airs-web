@@ -33,7 +33,7 @@ interface GenerateCompletionContextDefaultValue {
   promptSelectedId: string | undefined;
   setPromptSelectedId: (promptSelectedId: string | undefined) => void;
   videoFile: File | null;
-  setVideoFile: (file: File) => void;
+  setVideoFile: (file: File | null) => void;
   promptTranscription: string | undefined;
   setPromptTranscription: (promptTranscription: string | undefined) => void;
 }
