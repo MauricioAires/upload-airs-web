@@ -25,10 +25,13 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "country-flag-icons": "^1.5.7",
+    "i18next": "^23.5.1",
+    "i18next-browser-languagedetector": "^7.1.0",
     "lucide-react": "^0.277.0",
     "prettier": "^3.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-i18next": "^13.2.2",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7"
   },
