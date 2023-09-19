@@ -12,8 +12,10 @@ import { SelectLanguage } from "@/components/select-language";
 import { ResultGenerated } from "@/components/result-generated";
 import { Parameters } from "@/components/parameters";
 import { ModeToggle } from "@/components/mode-toggle";
+import { useGenerateCompletion } from "@/context/generate-completion";
 
 export function Home() {
+  const { selectedSession, setSelectedSession } = useGenerateCompletion();
   return (
     <div className="min-h-screen flex flex-col">
       <div className="px-6 py-3 flex items-center justify-between border-b">
@@ -41,8 +43,14 @@ export function Home() {
 
       {/* Mobile */}
       <main className="flex-1 p-6 flex  gap-6  md:flex-row md:hidden">
-        <Accordion type="single" collapsible className="w-full md:hidden">
-          <AccordionItem value="item-1">
+        <Accordion
+          type="single"
+          value={selectedSession}
+          onValueChange={(value) => setSelectedSession(value)}
+          collapsible
+          className="w-full md:hidden"
+        >
+          <AccordionItem value="parameterization">
             <AccordionTrigger>
               <span className="flex  gap-2">
                 <Wand2 className="w-4 h-4 ml-2" /> Parametrização
@@ -52,10 +60,10 @@ export function Home() {
               <Parameters />
             </AccordionContent>
           </AccordionItem>
-          <AccordionItem value="item-2">
+          <AccordionItem value="generated-response">
             <AccordionTrigger>
               <span className="flex  gap-2">
-                <Bot className="w-4 h-4 ml-2" /> Resultado gerado
+                <Bot className="w-4 h-4 ml-2" /> Resposta gerada
               </span>
             </AccordionTrigger>
             <AccordionContent>
