@@ -1,4 +1,4 @@
-import { Github, Terminal, Wand2 } from "lucide-react";
+import { Bot, Github, Wand2 } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -25,7 +25,7 @@ export function Home() {
           <Separator orientation="vertical" className="h-6" />
           <a
             className="appearance-none"
-            href="https://github.com/MauricioAires"
+            href="https://github.com/MauricioAires/upload-airs-web"
             target="_blank"
             referrerPolicy="no-referrer"
           >
@@ -55,7 +55,7 @@ export function Home() {
           <AccordionItem value="item-2">
             <AccordionTrigger>
               <span className="flex  gap-2">
-                <Terminal className="w-4 h-4 ml-2" /> Resultado gerado
+                <Bot className="w-4 h-4 ml-2" /> Resultado gerado
               </span>
             </AccordionTrigger>
             <AccordionContent>
