@@ -19,7 +19,7 @@ export function Parameters() {
     useGenerateCompletion();
 
   return (
-    <aside className="md:w-80 w-full space-y-6">
+    <aside className="md:w-80 w-full md:mb-0  mb-4 md:mt-0 mt-4  space-y-6">
       <VideoInputForm />
       <Separator />
 
