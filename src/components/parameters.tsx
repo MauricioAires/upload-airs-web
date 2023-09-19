@@ -23,6 +23,7 @@ export function Parameters() {
     videoId,
     input,
     completion,
+    setSelectedSession,
   } = useGenerateCompletion();
 
   const videoNotYetTranscription = !videoId;
@@ -79,6 +80,7 @@ export function Parameters() {
           }
           type="submit"
           className="w-full"
+          onClick={() => setSelectedSession("generated-response")}
         >
           {completion ? "Regenerar resposta" : "Executar"}
           <Wand2 className="w-4 h-4 ml-2" />
