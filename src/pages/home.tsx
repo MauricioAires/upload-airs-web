@@ -13,8 +13,10 @@ import { ResultGenerated } from "@/components/result-generated";
 import { Parameters } from "@/components/parameters";
 import { ModeToggle } from "@/components/mode-toggle";
 import { useGenerateCompletion } from "@/context/generate-completion";
+import { useTranslation } from "react-i18next";
 
 export function Home() {
+  const { t } = useTranslation();
   const { selectedSession, setSelectedSession } = useGenerateCompletion();
   return (
     <div className="min-h-screen flex flex-col">
@@ -22,7 +24,7 @@ export function Home() {
         <h1 className="text-xl font-bold">upload.airs</h1>
         <div className="flex items-center gap-3">
           <span className="text-sm text-muted-foreground hidden lg:block">
-            Desenvolvido com 💙 no NLW da Rocketseat
+            {t("powered_by")}
           </span>
           <Separator orientation="vertical" className="h-6" />
           <a
@@ -53,7 +55,8 @@ export function Home() {
           <AccordionItem value="parameterization">
             <AccordionTrigger>
               <span className="flex  gap-2">
-                <Wand2 className="w-4 h-4 ml-2" /> Parametrização
+                <Wand2 className="w-4 h-4 ml-2" />{" "}
+                {t("accordion.parameterization")}
               </span>
             </AccordionTrigger>
             <AccordionContent>
@@ -63,7 +66,8 @@ export function Home() {
           <AccordionItem value="generated-response">
             <AccordionTrigger>
               <span className="flex  gap-2">
-                <Bot className="w-4 h-4 ml-2" /> Resposta gerada
+                <Bot className="w-4 h-4 ml-2" />{" "}
+                {t("accordion.generated_response")}
               </span>
             </AccordionTrigger>
             <AccordionContent>

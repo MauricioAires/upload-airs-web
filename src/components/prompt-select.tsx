@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import {
   Select,
   SelectContent,
@@ -9,6 +10,7 @@ import {
 import { useGenerateCompletion } from "@/context/generate-completion";
 
 export function PromptSelect() {
+  const { t } = useTranslation();
   const { setInput, prompts, promptSelectedId, setPromptSelectedId } =
     useGenerateCompletion();
 
@@ -30,7 +32,7 @@ export function PromptSelect() {
       onValueChange={handlePromptSelected}
     >
       <SelectTrigger>
-        <SelectValue placeholder="Selecione um prompt..." />
+        <SelectValue placeholder={t("form_parameters.prompt_placeholder")} />
       </SelectTrigger>
 
       <SelectContent>

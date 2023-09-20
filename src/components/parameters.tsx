@@ -13,8 +13,10 @@ import { Slider } from "@/components/ui/slider";
 import { VideoInputForm } from "./video-input-form";
 import { PromptSelect } from "./prompt-select";
 import { useGenerateCompletion } from "@/context/generate-completion";
+import { useTranslation } from "react-i18next";
 
 export function Parameters() {
+  const { t } = useTranslation();
   const {
     temperature,
     setTemperature,
@@ -36,11 +38,11 @@ export function Parameters() {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-2">
-          <Label>Prompt</Label>
+          <Label>{t("form_parameters.prompt")}</Label>
           <PromptSelect />
         </div>
         <div className="space-y-2">
-          <Label>Modelo</Label>
+          <Label>{t("form_parameters.model")}</Label>
           <Select defaultValue="gpt3.5" disabled>
             <SelectTrigger>
               <SelectValue />
@@ -51,13 +53,15 @@ export function Parameters() {
             </SelectContent>
           </Select>
           <span className="block text-xs text-muted-foreground italic">
-            Você poderá customizar essa opção em breve
+            {t("form_parameters.model_tip")}
           </span>
         </div>
         <Separator />
 
         <div className="space-y-4">
-          <Label>Temperatura</Label>
+          <Label className="flex justify-between w-full">
+            {t("form_parameters.temperature")} <span>{temperature * 100}</span>
+          </Label>
 
           <Slider
             min={0}
@@ -67,8 +71,7 @@ export function Parameters() {
             onValueChange={(value) => setTemperature(value[0])}
           />
           <span className="block text-xs text-muted-foreground italic leading-relaxed">
-            Valores mais altos tendem a deixar o resultado mais criativos e com
-            possíveis erros.
+            {t("form_parameters.temperature_tip")}
           </span>
         </div>
 
@@ -82,7 +85,9 @@ export function Parameters() {
           className="w-full"
           onClick={() => setSelectedSession("generated-response")}
         >
-          {completion ? "Regenerar resposta" : "Executar"}
+          {completion
+            ? t("form_parameters.btn_submit.regenerate_response")
+            : t("form_parameters.btn_submit.execute")}
           <Wand2 className="w-4 h-4 ml-2" />
         </Button>
       </form>

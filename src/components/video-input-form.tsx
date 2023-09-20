@@ -9,18 +9,21 @@ import { getFFmpeg } from "@/lib/ffmpeg";
 import { fetchFile } from "@ffmpeg/util";
 import { api } from "@/lib/axios";
 import { useGenerateCompletion } from "@/context/generate-completion";
+import { useTranslation } from "react-i18next";
 
 type Status = "waiting" | "converting" | "uploading" | "generating" | "success";
 
-const statusMessages = {
-  waiting: "Transcrição gerada",
-  converting: "Convertendo",
-  generating: "Transcrevendo",
-  uploading: "Carregando",
-  success: "Sucesso",
-};
-
 export function VideoInputForm() {
+  const { t } = useTranslation();
+
+  const statusMessages = {
+    waiting: t("form_video.btn_submit_waiting"),
+    converting: t("form_video.btn_submit_converting"),
+    generating: t("form_video.btn_submit_generating"),
+    uploading: t("form_video.btn_submit_uploading"),
+    success: t("form_video.btn_submit_success"),
+  };
+
   const {
     setVideoId,
     setVideoFile,
@@ -143,13 +146,15 @@ export function VideoInputForm() {
               className="video-preview absolute z-20 hover:z-10 aspect-video object-cover inset-0"
             />
             <div className="absolute  bg-gray-700/30 flex z-10  hover:z-20 justify-center items-center  text-white   inset-0  ">
-              <span className="font-semibold">Transcrever outro video</span>
+              <span className="font-semibold">
+                {t("form_video.video_placeholder")}
+              </span>
             </div>
           </>
         ) : (
           <>
             <FileVideo className="w-4 h-4" />
-            Selecione um vídeo
+            {t("form_video.video")}
           </>
         )}
       </label>
@@ -163,12 +168,14 @@ export function VideoInputForm() {
       <Separator />
 
       <div className="space-y-2">
-        <Label htmlFor="transcription_prompt">Prompt de transcrição</Label>
+        <Label htmlFor="transcription_prompt">
+          {t("form_video.transcription_prompt")}
+        </Label>
         <Textarea
           disabled={status !== "waiting" || !!videoId}
           id="transcription_prompt"
           className="h-20 leading-relaxed resize-none"
-          placeholder="Inclua palavras-chave mencionadas no vídeo separadas por virgula ( , ) "
+          placeholder={t("form_video.transcription_prompt_placeholder")}
           value={promptTranscription}
           onChange={(e) => setPromptTranscription(e.target.value)}
         ></Textarea>
@@ -182,7 +189,7 @@ export function VideoInputForm() {
       >
         {status === "waiting" && !videoId ? (
           <>
-            Transcrever vídeo
+            {t("form_video.btn_submit_default")}
             <Upload className="w-4 h-4 ml-2" />
           </>
         ) : (

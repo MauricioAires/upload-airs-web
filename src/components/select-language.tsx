@@ -9,8 +9,10 @@ import US from "country-flag-icons/react/3x2/US";
 import BR from "country-flag-icons/react/3x2/BR";
 
 import i18n from "@/lib/i18next-config";
+import { useTranslation } from "react-i18next";
 
 export function SelectLanguage() {
+  const { t } = useTranslation();
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
 
@@ -19,23 +21,28 @@ export function SelectLanguage() {
 
   return (
     <div className="w-min  lg:w-[10rem]">
-      <Select defaultValue="pt" onValueChange={changeLanguage}>
+      <Select defaultValue={i18n.language} onValueChange={changeLanguage}>
         <SelectTrigger>
-          <SelectValue placeholder="Selecione um idioma" />
+          <SelectValue placeholder={t("languages.placeholder")} />
         </SelectTrigger>
 
         <SelectContent className="min-w-0">
           <SelectItem value="pt">
             <div className="flex flex-row">
-              <BR title="Brazil" className="w-4 h-4 mr-2" />
-              <span className="hidden lg:block">Brazil</span>
+              <BR title={t("languages.brazil")} className="w-4 h-4 mr-2" />
+              <span className="hidden lg:block">{t("languages.brazil")}</span>
               <span className="lg:hidden block">BR</span>
             </div>
           </SelectItem>
           <SelectItem value="en">
             <div className="flex flex-row">
-              <US title="United States" className="w-4 h-4 mr-2" />
-              <span className="hidden lg:block">United States</span>
+              <US
+                title={t("languages.united_states")}
+                className="w-4 h-4 mr-2"
+              />
+              <span className="hidden lg:block">
+                {t("languages.united_states")}
+              </span>
               <span className="lg:hidden block">US</span>
             </div>
           </SelectItem>
