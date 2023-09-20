@@ -48,6 +48,10 @@ const resources = {
         parameterization: "Parameterization",
         generated_response: "Generated Response",
       },
+      api_transcription: {
+        success: "Video transcribed successfully!",
+        error: "Uh oh! Something went wrong.",
+      },
     },
   },
   "pt-BR": {
@@ -94,6 +98,10 @@ const resources = {
       accordion: {
         parameterization: "Parametrização",
         generated_response: "Resposta gerada",
+      },
+      api_transcription: {
+        success: "Vídeo transcrito com sucesso!",
+        error: "Ah, ah! Algo deu errado.",
       },
     },
   },

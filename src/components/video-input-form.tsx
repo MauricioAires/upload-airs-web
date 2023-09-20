@@ -1,4 +1,11 @@
-import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { FileVideo, Upload } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -37,8 +44,12 @@ export function VideoInputForm() {
 
   const [status, setStatus] = useState<Status>("waiting");
 
-  async function handleFileSelected(e: ChangeEvent<HTMLInputElement>) {
+  const handleFileSelected = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const { files } = e.currentTarget;
+
+    setVideoId(null);
+    setPromptTranscription("");
+    setStatus("waiting");
 
     if (!files) {
       return;
@@ -47,13 +58,7 @@ export function VideoInputForm() {
     const selectedFile = files[0];
 
     setVideoFile(selectedFile);
-  }
-
-  useEffect(() => {
-    setVideoId(null);
-    setPromptTranscription("");
-    setStatus("waiting");
-  }, [videoFile]);
+  }, []);
 
   async function convertVideoToAudio(video: File) {
     console.log("Convert started");
@@ -114,27 +119,35 @@ export function VideoInputForm() {
 
     setStatus("generating");
 
-    await api
+    const responseTranscription = await api
       .post(`/videos/${videoId}/transcription`, {
         prompt: promptTranscription,
       })
       .then(() => {
         toast({
-          description: "Video transcrito com sucesso!",
+          description: t("api_transcription.success"),
         });
+
+        return true;
       })
       .catch((err) => {
         toast({
           variant: "destructive",
-          title: "Uh oh! Something went wrong.",
+          title: t("api_transcription.error"),
           description: err.response.data.error,
           duration: 8000, // 8 seconds
         });
-        setStatus("waiting");
-        setVideoFile(null);
 
-        return;
+        return false;
       });
+
+    if (!responseTranscription) {
+      setStatus("waiting");
+      setVideoId(null);
+      setVideoFile(null);
+
+      return;
+    }
 
     setStatus("success");
 
