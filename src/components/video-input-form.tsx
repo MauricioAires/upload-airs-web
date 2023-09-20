@@ -1,5 +1,6 @@
-import { ChangeEvent, FormEvent, useMemo, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
 import { FileVideo, Upload } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 
 import { Separator } from "./ui/separator";
 import { Label } from "./ui/label";
@@ -15,6 +16,7 @@ type Status = "waiting" | "converting" | "uploading" | "generating" | "success";
 
 export function VideoInputForm() {
   const { t } = useTranslation();
+  const { toast } = useToast();
 
   const statusMessages = {
     waiting: t("form_video.btn_submit_waiting"),
@@ -35,25 +37,23 @@ export function VideoInputForm() {
 
   const [status, setStatus] = useState<Status>("waiting");
 
-  function handleFileSelected(e: ChangeEvent<HTMLInputElement>) {
+  async function handleFileSelected(e: ChangeEvent<HTMLInputElement>) {
     const { files } = e.currentTarget;
 
     if (!files) {
       return;
     }
 
-    handleResetVideoInput();
-
     const selectedFile = files[0];
 
     setVideoFile(selectedFile);
   }
 
-  function handleResetVideoInput() {
-    setVideoFile(null);
+  useEffect(() => {
     setVideoId(null);
     setPromptTranscription("");
-  }
+    setStatus("waiting");
+  }, [videoFile]);
 
   async function convertVideoToAudio(video: File) {
     console.log("Convert started");
@@ -62,9 +62,6 @@ export function VideoInputForm() {
 
     await ffmpeg.writeFile("input.mp4", await fetchFile(video));
 
-    // ffmpeg.on("log", (log) => {
-    //   console.log(log);
-    // });
     ffmpeg.on("progress", (progress) => {
       console.log(`Convert progress: ${Math.round(progress.progress * 100)}}`);
     });
@@ -117,9 +114,27 @@ export function VideoInputForm() {
 
     setStatus("generating");
 
-    await api.post(`/videos/${videoId}/transcription`, {
-      prompt: promptTranscription,
-    });
+    await api
+      .post(`/videos/${videoId}/transcription`, {
+        prompt: promptTranscription,
+      })
+      .then(() => {
+        toast({
+          description: "Video transcrito com sucesso!",
+        });
+      })
+      .catch((err) => {
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: err.response.data.error,
+          duration: 8000, // 8 seconds
+        });
+        setStatus("waiting");
+        setVideoFile(null);
+
+        return;
+      });
 
     setStatus("success");
 
@@ -133,6 +148,7 @@ export function VideoInputForm() {
 
     return URL.createObjectURL(videoFile);
   }, [videoFile]);
+
   return (
     <form onSubmit={handleUploadVideo} className="space-y-6">
       <label
@@ -172,7 +188,7 @@ export function VideoInputForm() {
           {t("form_video.transcription_prompt")}
         </Label>
         <Textarea
-          disabled={status !== "waiting" || !!videoId}
+          disabled={status !== "waiting" || videoId !== null}
           id="transcription_prompt"
           className="h-20 leading-relaxed resize-none"
           placeholder={t("form_video.transcription_prompt_placeholder")}
@@ -182,12 +198,12 @@ export function VideoInputForm() {
       </div>
 
       <Button
-        disabled={status !== "waiting" || !!videoId || !videoFile}
+        disabled={status !== "waiting" || videoId !== null || !videoFile}
         type="submit"
         className="w-full data-[status=success]:bg-emerald-400"
-        data-status={!!videoId ? "success" : status}
+        data-status={videoId !== null ? "success" : status}
       >
-        {status === "waiting" && !videoId ? (
+        {status === "waiting" && videoId !== null ? (
           <>
             {t("form_video.btn_submit_default")}
             <Upload className="w-4 h-4 ml-2" />
