@@ -19,7 +19,6 @@ export function SelectLanguage() {
     i18n.reloadResources();
   };
 
-  console.log(i18n.language);
   return (
     <div className="w-min  lg:w-[10rem]">
       <Select defaultValue={i18n.language} onValueChange={changeLanguage}>
