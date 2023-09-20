@@ -19,6 +19,7 @@ export function SelectLanguage() {
     i18n.reloadResources();
   };
 
+  console.log(i18n.language);
   return (
     <div className="w-min  lg:w-[10rem]">
       <Select defaultValue={i18n.language} onValueChange={changeLanguage}>
@@ -27,14 +28,14 @@ export function SelectLanguage() {
         </SelectTrigger>
 
         <SelectContent className="min-w-0">
-          <SelectItem value="pt">
+          <SelectItem value="pt-BR">
             <div className="flex flex-row">
               <BR title={t("languages.brazil")} className="w-4 h-4 mr-2" />
               <span className="hidden lg:block">{t("languages.brazil")}</span>
               <span className="lg:hidden block">BR</span>
             </div>
           </SelectItem>
-          <SelectItem value="en">
+          <SelectItem value="en-US">
             <div className="flex flex-row">
               <US
                 title={t("languages.united_states")}

@@ -3,7 +3,7 @@ import { initReactI18next } from "react-i18next";
 import { languageDetector, languageDetectorOptions } from "./lang-detector";
 
 const resources = {
-  en: {
+  "en-US": {
     translation: {
       powered_by: "Powered by 💙 in NLW by Rocketseat",
       languages: {
@@ -50,7 +50,7 @@ const resources = {
       },
     },
   },
-  pt: {
+  "pt-BR": {
     translation: {
       powered_by: "Desenvolvido com 💙 no NLW da Rocketseat",
       languages: {
