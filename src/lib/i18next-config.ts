@@ -20,7 +20,7 @@ const resources = {
         temperature_tip:
           "Higher values tend to make the result more creative and with possible errors.",
         btn_submit: {
-          execute: "Execute",
+          execute: "Generate",
           regenerate_response: "Regenerate response",
         },
       },
@@ -67,7 +67,7 @@ const resources = {
         temperature_tip:
           "Valores mais altos tendem a deixar o resultado mais criativos e com possíveis erros.",
         btn_submit: {
-          execute: "Executar",
+          execute: "Gerar",
           regenerate_response: "Regenerar resposta",
         },
       },
