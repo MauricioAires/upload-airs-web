@@ -145,7 +145,7 @@ export function VideoInputForm() {
               src={previewURL}
               className="video-preview absolute z-20 hover:z-10 aspect-video object-cover inset-0"
             />
-            <div className="absolute  bg-gray-700/30 flex z-10  hover:z-20 justify-center items-center  text-white   inset-0  ">
+            <div className="absolute hidden md:flex bg-gray-700/30  z-10  hover:z-20 justify-center items-center  text-white   inset-0  ">
               <span className="font-semibold">
                 {t("form_video.video_placeholder")}
               </span>
