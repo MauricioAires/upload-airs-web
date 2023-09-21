@@ -216,7 +216,7 @@ export function VideoInputForm() {
         className="w-full data-[status=success]:bg-emerald-400"
         data-status={videoId !== null ? "success" : status}
       >
-        {status === "waiting" && videoId !== null ? (
+        {status === "waiting" && videoId === null ? (
           <>
             {t("form_video.btn_submit_default")}
             <Upload className="w-4 h-4 ml-2" />
